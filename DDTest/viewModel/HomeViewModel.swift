@@ -22,22 +22,22 @@ class HomeViewModel {
     
     func getItems() -> [CellConfigurator] {
         [BannerCellConfig(item: BannerModel(title: "Hungry? We deliver!",
-                                            description: "Tap here to select an adress")),
+                                            description: "Tap here to select an address")),
                                 PromoCellConfig(item: "")]
     }
     
     func getCities(completion: @escaping  (_ items: [CellConfigurator]?, _ error: APIError?) -> Void) {
         let endpoint = Endpoint(path: "/settings", queryItems: nil)
         
-        service.getGenericData(url: endpoint.url) { (cityData: CityData?, error: APIError?) in
+        service.getGenericData(url: endpoint.url) { [weak self] (cityData: CityData?, error: APIError?) in
             if let err = error {
                 completion(nil, err)
                 print("$$$$$$$$$ ERROR, \(err)")
             }
             
-            self.cityData = cityData
+            self?.cityData = cityData
             let items: [CellConfigurator] = [BannerCellConfig(item: BannerModel(title: "Hungry? We deliver!",
-                                                description: "Tap here to select an adress")),
+                                                description: "Tap here to select an address")),
                                              CollectionCellConfig(item: cityData?.cities ?? []),
                                              PromoCellConfig(item: "")]
             

@@ -10,13 +10,11 @@ import Foundation
 typealias FoodCellConfig = TableCellConfigurator<FoodTableViewCell, FoodItem>
 typealias FoodCategoriesCellConfig = TableCellConfigurator<FoodCategoryCollectionCell, [FoodCategory]>
 
-
 struct FoodInputData {
     let service: Service
     let selectedCity: City
     let allCities: [City]
 }
-
 
 class FoodViewModel {
     
@@ -32,13 +30,13 @@ class FoodViewModel {
         let cityId = city != nil ? city?.id ?? "" : foodInputData.selectedCity.id
         let foodEndpoint = Endpoint.init(path: "/foods/\(cityId)", queryItems: nil)
         
-        foodInputData.service.getGenericData(url: foodEndpoint.url) { (foodData: FoodData?, error: APIError?) in
+        foodInputData.service.getGenericData(url: foodEndpoint.url) { [weak self] (foodData: FoodData?, error: APIError?) in
             if let err = error {
                 completion(nil, nil, err)
                 print("$$$$$$$$$ ERROR, \(err)")
             }
             
-            self.foodData = foodData
+            self?.foodData = foodData
             let foodItems = foodData?.items.map { FoodCellConfig(item: $0) }
             
             var items: [CellConfigurator] = [BannerCellConfig(item: BannerModel(title: foodData?.name ?? "",
@@ -60,6 +58,5 @@ class FoodViewModel {
         items.append(contentsOf: filteredItems?.map { FoodCellConfig(item: $0) } ?? [])
         
         return  items
-        
     }
 }
