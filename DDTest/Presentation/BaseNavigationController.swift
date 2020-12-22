@@ -28,9 +28,10 @@ protocol CartButtonConfigurable where Self: UIViewController {
 
 extension CartButtonConfigurable {
     func addCartButton() {
-        let button = UIButton(frame: CGRect(x: 30, y: 0, width: 44, height: 44))
+        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 44, height: 44))
         button.setImage(UIImage(named: "cart_grey"), for: .normal)
         let rightBarButtonItem = UIBarButtonItem(customView: button)
+        
         self.navigationItem.rightBarButtonItem = rightBarButtonItem
     }
 }
