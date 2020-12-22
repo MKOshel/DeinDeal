@@ -15,6 +15,7 @@ class CategoryCollectionViewCell: UICollectionViewCell {
     override var isSelected: Bool {
         didSet {
             if isSelected {
+                foodImageView.animateWithRippleEffect()
                 foodImageView.backgroundColor = .red
                 titleLabel.textColor = .red
             } else {
